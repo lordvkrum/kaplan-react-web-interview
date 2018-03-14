@@ -1,0 +1,39 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "jest": true,
+    "es6": true,
+    "node": true,
+    "cypress/globals": true
+  },
+  "plugins": ["react", "flowtype", "prettier","cypress"],
+	"settings": {
+		"flowtype": {
+			"onlyFilesWithFlowAnnotation": true
+		}
+	},
+	"parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    }
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:flowtype/recommended",
+    "airbnb",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react"
+  ],
+  "rules": {
+    "no-use-before-define": ["off"],
+    "react/jsx-filename-extension": ["off"],
+		"jsx-a11y/anchor-is-valid": ["error": {
+			"components": [ "Link" ],
+			"specialLink": ["to", "hrefLeft", "hrefRight" ],
+			"aspects": ["noHref", "invalidHref", "preferButton"]
+		}]
+  }
+}
