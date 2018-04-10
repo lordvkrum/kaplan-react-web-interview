@@ -39,8 +39,10 @@ class App extends React.PureComponent {
 
   render() {
     const { errors, email, password, isFetching } = this.state;
+    // ref: http://emailregex.com/
+    const emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const buttonLabel = isFetching ? 'Loading...' : 'Log In';
-    const isButtonEnabled = email.length > 0 && password.length > 0 && !isFetching;
+    const isButtonEnabled = email.length > 0 && password.length > 0 && emailRegExp.test(email) && !isFetching;
 
     return (
       <form className="App">
