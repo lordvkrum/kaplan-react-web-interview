@@ -1,0 +1,10 @@
+.Button {
+  height: 35px;
+  color: white;
+  background: cornflowerblue;
+  border-radius: 5px;
+}
+
+.Button[disabled] {
+  background: lightgray;
+}

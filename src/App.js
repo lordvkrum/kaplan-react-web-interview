@@ -1,17 +1,71 @@
 import React from 'react'
-import logo from './logo.svg'
+import { logIn } from './api'
+import Input from './components/Input'
+import Button from './components/Button'
+import ErrorList from './components/ErrorList'
 import './App.css'
 
-const App = () => (
-  <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h1 className="App-title">Welcome to React</h1>
-    </header>
-    <p className="App-intro">
-      To get started, edit <code>src/App.js</code> and save to reload.
-    </p>
-  </div>
-)
+class App extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.buttonRef = React.createRef(); /* ref for testing */
+    this.handleEmailInputChange = this.handleEmailInputChange.bind(this);
+    this.handlePasswordInputChange = this.handlePasswordInputChange.bind(this);
+    this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.state = {
+      errors: [],
+      email: '',
+      password: '',
+      isFetching: false
+    };
+  }
+
+  handleEmailInputChange(e) {
+    this.setState({email: e.target.value});
+  }
+
+  handlePasswordInputChange(e) {
+    this.setState({password: e.target.value});
+  }
+
+  handleButtonClick() {
+    const { email, password } = this.state;
+    this.setState({ isFetching: true });
+    logIn(email, password)
+      .then(() => {/* successful logIn logic */})
+      .catch((errors) => this.setState({ errors }))
+      .then(() => this.setState({ isFetching: false }));
+  }
+
+  render() {
+    const { errors, email, password, isFetching } = this.state;
+    const buttonLabel = isFetching ? 'Loading...' : 'Log In';
+    const isButtonEnabled = email.length > 0 && password.length > 0 && !isFetching;
+
+    return (
+      <form className="App">
+        <ErrorList errors={errors} />
+        <Input
+          name="email"
+          label="Email"
+          value={email}
+          isEnabled={!isFetching}
+          onInputChange={this.handleEmailInputChange} />
+        <Input
+          name="password"
+          label="Password"
+          type="password"
+          value={password}
+          isEnabled={!isFetching}
+          onInputChange={this.handlePasswordInputChange} />
+        <Button
+          ref={this.buttonRef}
+          label={buttonLabel}
+          isEnabled={isButtonEnabled}
+          onButtonClick={this.handleButtonClick} />
+      </form>
+    );
+  }
+}
 
 export default App

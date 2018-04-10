@@ -1,0 +1,10 @@
+.Label {
+  margin-bottom: 10px;
+}
+.Input {
+  height: 30px;
+  margin-bottom: 30px;
+}
+.Input[disabled] {
+  background: lightgray;
+}
